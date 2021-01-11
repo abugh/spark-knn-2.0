@@ -3,7 +3,7 @@ package com.littlecontrib.spark.nneighbor.node
 import breeze.linalg.{*, DenseMatrix, Vector, argsort, sum}
 import breeze.numerics.sqrt
 
-class DenseVecNodeNeighborFinder extends NodeNeighborFinder {
+case class DenseVecNodeNeighborFinder() extends NodeNeighborFinder {
 
   def cosineSimilarity(embeddings: DenseMatrix[Double]): DenseMatrix[Double] = {
     val mSq = embeddings *:* embeddings

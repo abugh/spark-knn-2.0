@@ -27,8 +27,8 @@ object Example {
       ("8", SparkVecs.dense(Array[Double](6d, 3d, 2d))),
       ("9", SparkVecs.dense(Array[Double](7d, 0d, 0d)))
     ).toDF.as[SimpleVector]
-    val finder = new SparkNearestNeighborFinder(
-      new DenseVecNodeNeighborFinder()
+    val finder = SparkNearestNeighborFinder(
+      DenseVecNodeNeighborFinder()
     )
     val sim = finder.findNN(vec, 2, 2).collect()
     println(sim)

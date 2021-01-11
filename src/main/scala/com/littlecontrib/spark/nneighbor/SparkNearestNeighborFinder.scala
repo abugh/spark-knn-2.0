@@ -5,7 +5,7 @@ import org.apache.spark.sql.{Dataset, Row, functions => F}
 case class SimpleVector(vecId: String, vec: SparkVec)
 
 case class VectorSimilarity(vecId: String, neighborId: String, score: Double)
-class SparkNearestNeighborFinder(localFinder: NodeNeighborFinder) {
+case class SparkNearestNeighborFinder(localFinder: NodeNeighborFinder) {
 
   val findKNN = F.udf { (embeddingA: Seq[Row], embeddingB: Seq[Row], k: Int) =>
     val embeddingMap = embeddingA

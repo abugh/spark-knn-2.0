@@ -2,7 +2,7 @@ package com.littlecontrib.spark.nneighbor.node
 
 import breeze.linalg
 
-class ANNNodeNeighborFinder extends NodeNeighborFinder {
+case class ANNNodeNeighborFinder() extends NodeNeighborFinder {
 
   /**
     *

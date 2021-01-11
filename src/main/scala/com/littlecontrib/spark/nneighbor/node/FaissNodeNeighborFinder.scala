@@ -2,7 +2,7 @@ package com.littlecontrib.spark.nneighbor.node
 
 import breeze.linalg
 
-class FaissNodeNeighborFinder extends NodeNeighborFinder {
+case class FaissNodeNeighborFinder() extends NodeNeighborFinder {
 
   /**
     *

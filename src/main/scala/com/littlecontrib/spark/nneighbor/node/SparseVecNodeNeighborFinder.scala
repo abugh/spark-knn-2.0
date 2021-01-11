@@ -2,7 +2,7 @@ package com.littlecontrib.spark.nneighbor.node
 
 import breeze.linalg.{CSCMatrix, DenseMatrix, Vector, argsort}
 
-class SparseVecNodeNeighborFinder extends NodeNeighborFinder {
+case class SparseVecNodeNeighborFinder() extends NodeNeighborFinder {
   def cosineCSCMatrixSimilarity(
     embeddings: CSCMatrix[Double]
   ): DenseMatrix[Double] = {
