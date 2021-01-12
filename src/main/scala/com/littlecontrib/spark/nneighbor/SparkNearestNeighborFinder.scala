@@ -73,6 +73,7 @@ case class SparkNearestNeighborFinder(localFinder: NodeNeighborFinder) {
       )
       .dropDuplicates("vecId", "neighborId")
       .withColumn("rank", F.rank().over(Window.partitionBy($"vecId").orderBy($"score".desc)))
+      .filter($"rank"<k+1)
       .as[VectorSimilarity]
   }
 }
