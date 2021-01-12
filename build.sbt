@@ -43,6 +43,7 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "slf4j-log4j12" % "1.7.25",
   "org.scalatest" %% "scalatest" % "3.0.0" % "test",
   "com.holdenkarau" %% "spark-testing-base" % "2.4.5_0.14.0" % "test",
+  "org.scala-lang" % "scala-reflect" % "2.12.8" % "provided",
 )
 
 unmanagedJars in Compile ++= (file("src/main/resources/") ** "*.jar").classpath

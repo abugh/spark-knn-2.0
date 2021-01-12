@@ -1,15 +1,20 @@
-package com.littlecontrib.spark.nneighbor.example
-
-import com.littlecontrib.spark.nneighbor.node.DenseVecNodeNeighborFinder
-import com.littlecontrib.spark.nneighbor.{
-  SimpleVector,
-  SparkNearestNeighborFinder
-}
-import org.apache.spark.SparkConf
+package com.littlecontrib.spark.neighbor
 import org.apache.spark.ml.linalg.{Vectors => SparkVecs}
+import com.holdenkarau.spark.testing.DataFrameSuiteBase
+import com.littlecontrib.spark.nneighbor.{SimpleVector, SparkNearestNeighborFinder}
+import com.littlecontrib.spark.nneighbor.node.DenseVecNodeNeighborFinder
+import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
-object Example {
-  def main(array: Array[String]): Unit = {
+import org.scalatest.{BeforeAndAfter, BeforeAndAfterAll, CancelAfterFailure, FunSuite}
+
+class Example extends FunSuite
+  with BeforeAndAfter
+  with CancelAfterFailure
+  with BeforeAndAfterAll
+  with DataFrameSuiteBase
+  with Serializable {
+
+  test("combineSeqsUdf") {
     val sparkConf = new SparkConf()
       .setMaster("local[2]")
       .setAppName("example")
@@ -26,11 +31,12 @@ object Example {
       ("7", SparkVecs.dense(Array[Double](2d, 3d, 4d))),
       ("8", SparkVecs.dense(Array[Double](6d, 3d, 2d))),
       ("9", SparkVecs.dense(Array[Double](7d, 0d, 0d)))
-    ).toDF.as[SimpleVector]
+    ).toDF("vecId","vec").as[SimpleVector]
     val finder = SparkNearestNeighborFinder(
       DenseVecNodeNeighborFinder()
     )
     val sim = finder.findNN(vec, 2, 2).collect()
-    println(sim)
+    println("source_id, neighbor_id,score")
+    sim.foreach(e=>println(e.vecId+","+e.neighborId+","+e.score))
   }
 }

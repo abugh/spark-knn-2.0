@@ -25,7 +25,7 @@ case class SparkNearestNeighborFinder(localFinder: NodeNeighborFinder) {
       .findNearest(embeddingMap, k)
       .flatMap(e => {
         e._2.map(neighbor => VectorSimilarity(e._1, neighbor._1, neighbor._2))
-      })
+      }).toSeq
   }
 
   def findNN(embedding: Dataset[SimpleVector],
@@ -41,7 +41,7 @@ case class SparkNearestNeighborFinder(localFinder: NodeNeighborFinder) {
       )
       //split the embedding dataset to $splitNum pieces
       .groupBy($"split_index")
-      .agg(F.collect_list(F.struct("vecId", "vector")).as("embeddings"))
+      .agg(F.collect_list(F.struct("vecId", "vec")).as("embeddings"))
     embeddingPartitioned
       .crossJoin(
         // make each pieces meet to each other
@@ -62,7 +62,7 @@ case class SparkNearestNeighborFinder(localFinder: NodeNeighborFinder) {
       .dropDuplicates("split_key")
       .withColumn(
         "knns",
-        findKNN($"embeddings", $"embeddings_b", $"country_candidates", F.lit(k))
+        findKNN($"embeddings", $"embeddings_b", F.lit(k))
       )
       .select(F.explode($"knns").as("knn"))
       .select(

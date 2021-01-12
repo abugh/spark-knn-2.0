@@ -17,7 +17,7 @@ case class DenseVecNodeNeighborFinder() extends NodeNeighborFinder {
     val ids = featureMap.keySet.toSeq
     val numvec = ids.length
     val numDim = featureMap(ids.head).length
-    val embeddingMatrix = DenseMatrix.zeros[Double](numvec, numDim)
+    val embeddingMatrix = DenseMatrix.zeros[Double](numDim,numvec)
     ids.zipWithIndex.foreach {
       case (vid, i) => embeddingMatrix(::, i) := featureMap(vid)
     }
