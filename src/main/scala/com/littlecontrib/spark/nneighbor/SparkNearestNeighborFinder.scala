@@ -1,6 +1,7 @@
 package com.littlecontrib.spark.nneighbor
 import org.apache.spark.ml.linalg.{Vector => SparkVec}
 import com.littlecontrib.spark.nneighbor.node.NodeNeighborFinder
+import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.{Dataset, Row, functions => F}
 case class SimpleVector(vecId: String, vec: SparkVec)
 
@@ -71,6 +72,7 @@ case class SparkNearestNeighborFinder(localFinder: NodeNeighborFinder) {
         $"knn.score".as("score")
       )
       .dropDuplicates("vecId", "neighborId")
+      .withColumn("rank", F.rank().over(Window.partitionBy($"vecId").orderBy($"score".desc)))
       .as[VectorSimilarity]
   }
 }

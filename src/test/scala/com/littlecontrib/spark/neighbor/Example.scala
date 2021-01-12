@@ -37,7 +37,7 @@ class Example extends FunSuite
     )
     val sim = finder.findNN(vec, 2, 2).collect()
     println("source_id, neighbor_id,score")
-    sim.sortWith((x1,x2)=>x1.vecId<x2.vecId)
-    sim.foreach(e=>println(e.vecId+","+e.neighborId+","+e.score))
+    val simSort=sim.sortWith((x1,x2)=>x1.vecId<x2.vecId)
+    simSort.foreach(e=>println(e.vecId+","+e.neighborId+","+e.score))
   }
 }
